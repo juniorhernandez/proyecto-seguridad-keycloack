@@ -1,1 +1,4 @@
 frontend/system/
+node_modules/
+dist/
+
