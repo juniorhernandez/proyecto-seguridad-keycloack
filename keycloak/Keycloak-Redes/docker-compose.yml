@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.0
+    container_name: keycloak-Redes
+    restart: always
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mssql
+      KC_DB_URL_HOST: 178.16.141.5
+      KC_DB_URL_PORT: 1433
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: usrKeycloak
+      KC_DB_PASSWORD: "kEycloak@rede$"
+      KC_DB_URL_PROPERTIES: ";encrypt=true;trustServerCertificate=true"
+      KC_TRANSACTION_XA_ENABLED: "false"
+      KC_HOSTNAME_STRICT: "false"
+      KC_PROXY: edge
+      KC_HOSTNAME_URL: "https://178.16.141.5/auth"
+      KC_HOSTNAME_ADMIN_URL: "https://178.16.141.5/auth"
+      KC_HTTP_RELATIVE_PATH: /auth
+      PROXY_ADDRESS_FORWARDING: "true"
+      TZ: America/Guatemala
+    command:
+      - start
+      - --proxy=edge
+      - --http-relative-path=/auth
+    ports:
+      - "8080:8080"
+    networks:
+      - keycloak-net
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-keycloak
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - keycloak
+    networks:
+      - keycloak-net
+
+networks:
+  keycloak-net:
+    driver: bridge
