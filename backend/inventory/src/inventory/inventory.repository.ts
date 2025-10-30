@@ -27,8 +27,12 @@ export class InventoryRepository {
     return this.repo.save(nuevo);
   }
 
-  update(id: number, data: Partial<Inventory>): Promise<Inventory> {
-    const actualizado = this.repo.create({ id, ...data });
+  async update(id: number, data: Partial<Inventory>): Promise<Inventory> {
+    const existente = await this.repo.findOneBy({ id });
+    if (!existente) {
+      throw new Error(`Inventario con ID ${id} no encontrado`);
+    }
+    const actualizado = this.repo.merge(existente, data);
     return this.repo.save(actualizado);
   }
 }

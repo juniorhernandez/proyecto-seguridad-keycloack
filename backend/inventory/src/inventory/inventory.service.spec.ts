@@ -15,4 +15,6 @@ describe('InventoryService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  
 });

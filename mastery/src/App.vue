@@ -1,11 +1,65 @@
-<script setup lang="ts"></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+
+    <main class="main-container">
+      <router-view />
+    </main>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import Navbar from '@/components/Navbar.vue';
+</script>
+
+<style scoped>
+/* 🌐 Estructura general */
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f6fa;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6fa;
+  line-height: 1.6;
+}
+
+/* =============================
+   📱 RESPONSIVE DESIGN
+   ============================= */
+
+/* 🔸 Tablets (pantallas ≤ 992px) */
+@media (max-width: 992px) {
+  .main-content {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+}
+
+/* 🔸 Teléfonos (pantallas ≤ 768px) */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+    max-width: 95%;
+  }
+
+  h1, h2 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
+/* 🔸 Móviles pequeños (pantallas ≤ 480px) */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.8rem;
+    width: 100%;
+  }
+
+  h1, h2 {
+    font-size: 1.2rem;
+  }
+}
+</style>

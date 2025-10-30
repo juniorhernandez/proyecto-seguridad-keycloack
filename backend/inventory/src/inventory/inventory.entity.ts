@@ -25,4 +25,8 @@ export class Inventory {
     default: () => 'CURRENT_TIMESTAMP',
   })
   fecha: Date;
+
+  @Column('int', { default: 1 })
+  estado: number;
+
 }

@@ -28,4 +28,9 @@ export class InventoryController {
   ): Promise<Inventory> {
     return this.service.update(id, data);
   }
+
+  @Put(':id/desactivar')
+  async desactivar(@Param('id') id: number) {
+    return this.service.desactivar(Number(id));
+  }
 }

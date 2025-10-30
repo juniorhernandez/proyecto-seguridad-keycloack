@@ -6,9 +6,9 @@ async function bootstrap() {
 
   // Habilitar CORS solo para el frontend autorizado
   app.enableCors({
-    origin: 'https://178.16.141.5',
-    methods: 'GET,POST,PUT,DELETE',
-    credentials: true,
+    origin: '*',
+    methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
   });
 
   await app.listen(process.env.PORT ?? 3000);
