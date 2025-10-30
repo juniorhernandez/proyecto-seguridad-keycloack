@@ -3,7 +3,7 @@
     <Navbar />
 
     <section class="dashboard-content">
-      <h1>Dashboard de Inventario</h1>
+      <h1>Dashboard</h1>
 
       <div v-if="!dataLoaded" class="loading">
         <p>Cargando estadísticas...</p>
@@ -36,6 +36,16 @@
           <h2>Precio promedio</h2>
           <p class="value">Q {{ dashboard.promedioPrecio.toFixed(2) }}</p>
         </div>
+
+        <div class="card ventas">
+          <h2>Total de Ventas Realizadas</h2>
+          <p class="value">{{ dashboard.totalVentas }}</p>
+        </div>
+
+        <div class="card dinero">
+          <h2>Total Vendido</h2>
+          <p class="value">Q {{ dashboard.totalDineroVendido.toFixed(2) }}</p>
+        </div>
       </div>
     </section>
   </div>
@@ -52,6 +62,8 @@ interface Dashboard {
   productoMenorStock: { nombre: string; stock: number };
   totalValorInventario: number;
   promedioPrecio: number;
+  totalVentas: number;
+  totalDineroVendido: number;
 }
 
 const dashboard = ref<Dashboard>({
@@ -60,6 +72,8 @@ const dashboard = ref<Dashboard>({
   productoMenorStock: { nombre: '', stock: 0 },
   totalValorInventario: 0,
   promedioPrecio: 0,
+  totalVentas: 0,
+  totalDineroVendido: 0,
 });
 
 const dataLoaded = ref(false);
@@ -70,7 +84,7 @@ const cargarDashboard = async () => {
     dashboard.value = res.data;
     dataLoaded.value = true;
   } catch (error) {
-    console.error('❌ Error al cargar dashboard:', error);
+    console.error('Error al cargar dashboard:', error);
   }
 };
 
@@ -85,7 +99,6 @@ onMounted(cargarDashboard);
   flex-direction: column;
 }
 
-/* 🧩 Sección principal */
 .dashboard-content {
   width: 100%;
   max-width: 1200px;
@@ -104,7 +117,6 @@ h1 {
   margin-bottom: 2rem;
 }
 
-/* 🧮 Grid flexible */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -112,7 +124,6 @@ h1 {
   align-items: stretch;
 }
 
-/* 🧱 Tarjetas */
 .card {
   background: #ffffff;
   border-radius: 12px;
@@ -151,7 +162,6 @@ h1 {
   font-size: 0.9rem;
 }
 
-/* 🎨 Colores de borde */
 .card.total {
   border-top: 6px solid #3498db;
 }
@@ -167,8 +177,13 @@ h1 {
 .card.promedio {
   border-top: 6px solid #16a085;
 }
+.card.ventas {
+  border-top: 6px solid #1abc9c;
+}
+.card.dinero {
+  border-top: 6px solid #27ae60;
+}
 
-/* 📱 Responsive avanzado */
 @media (max-width: 1024px) {
   .dashboard-content {
     margin: 1.5rem;
