@@ -110,7 +110,6 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-/* Grid responsivo */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -160,7 +159,6 @@ input:focus {
   background-color: #16a085;
 }
 
-/* 📱 Responsive */
 @media (max-width: 600px) {
   .form-container {
     padding: 1.2rem;

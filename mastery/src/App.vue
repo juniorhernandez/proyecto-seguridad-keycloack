@@ -10,7 +10,6 @@ import Navbar from '@/components/Navbar.vue';
 </script>
 
 <style scoped>
-/* 🌐 Estructura general */
 .main-container {
   min-height: 100vh;
   display: flex;
@@ -26,11 +25,7 @@ body {
   line-height: 1.6;
 }
 
-/* =============================
-   📱 RESPONSIVE DESIGN
-   ============================= */
 
-/* 🔸 Tablets (pantallas ≤ 992px) */
 @media (max-width: 992px) {
   .main-content {
     padding: 1.5rem;
@@ -38,7 +33,7 @@ body {
   }
 }
 
-/* 🔸 Teléfonos (pantallas ≤ 768px) */
+
 @media (max-width: 768px) {
   .main-content {
     padding: 1rem;
@@ -51,7 +46,6 @@ body {
   }
 }
 
-/* 🔸 Móviles pequeños (pantallas ≤ 480px) */
 @media (max-width: 480px) {
   .main-content {
     padding: 0.8rem;

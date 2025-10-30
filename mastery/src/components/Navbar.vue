@@ -1,18 +1,15 @@
 <template>
   <nav class="navbar">
     <div class="nav-container">
-      <!-- Logo o nombre del sistema -->
       <div class="logo">
         Mastery
       </div>
 
-      <!-- Menú principal -->
       <div class="nav-links" :class="{ open: isOpen }">
         <router-link to="/" class="nav-item" @click="closeMenu">Home</router-link>
         <router-link to="/productos" class="nav-item" @click="closeMenu">Productos</router-link>
       </div>
 
-      <!-- Botón menú móvil -->
       <div class="menu-toggle" @click="toggleMenu">
         <span :class="{ active: isOpen }"></span>
         <span :class="{ active: isOpen }"></span>
@@ -31,7 +28,6 @@ const closeMenu = () => (isOpen.value = false);
 </script>
 
 <style scoped>
-/* 🔹 Barra principal */
 .navbar {
   background-color: #1e2a38;
   color: #ecf0f1;
@@ -42,7 +38,6 @@ const closeMenu = () => (isOpen.value = false);
   z-index: 1000;
 }
 
-/* 🔹 Contenedor de elementos */
 .nav-container {
   display: flex;
   align-items: center;
@@ -51,14 +46,12 @@ const closeMenu = () => (isOpen.value = false);
   margin: 0 auto;
 }
 
-/* 🔹 Logo o título */
 .logo {
   font-size: 1.3rem;
   font-weight: bold;
   letter-spacing: 1px;
 }
 
-/* 🔹 Enlaces de navegación */
 .nav-links {
   display: flex;
   gap: 1.5rem;
@@ -81,7 +74,6 @@ const closeMenu = () => (isOpen.value = false);
   font-weight: bold;
 }
 
-/* 🔹 Botón de menú (solo móviles) */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -98,7 +90,6 @@ const closeMenu = () => (isOpen.value = false);
   transition: all 0.3s ease;
 }
 
-/* Efecto animado del icono hamburguesa */
 .menu-toggle span.active:nth-child(1) {
   transform: rotate(45deg) translateY(8px);
 }
@@ -109,9 +100,7 @@ const closeMenu = () => (isOpen.value = false);
   transform: rotate(-45deg) translateY(-8px);
 }
 
-/* ===========================
-   📱 RESPONSIVE DESIGN
-   =========================== */
+
 @media (max-width: 768px) {
   .nav-links {
     position: absolute;

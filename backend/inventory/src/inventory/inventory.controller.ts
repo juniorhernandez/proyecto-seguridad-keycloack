@@ -11,6 +11,11 @@ export class InventoryController {
     return this.service.getAll();
   }
 
+  @Get('dashboard')
+  getDashboard() {
+    return this.service.getDashboard();
+  }
+
   @Get(':id')
   getById(@Param('id') id: number): Promise<Inventory> {
     return this.service.getById(id);

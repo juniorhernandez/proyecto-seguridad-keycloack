@@ -1,13 +1,8 @@
 <template>
   <div class="productos-container">
     <Navbar />
-
-    <section class="content">
-
-      <!-- Formulario de registro -->
+    <section class="content">   
       <ProductForm @refresh="cargarProductos" />
-
-      <!-- Tabla de productos -->
       <ProductTable :productos="productos" @refresh="cargarProductos" />
     </section>
   </div>
@@ -36,7 +31,6 @@ onMounted(cargarProductos);
 </script>
 
 <style scoped>
-/* 🌐 Contenedor principal */
 .productos-container {
   background-color: #f5f6fa;
   min-height: 100vh;
@@ -44,7 +38,6 @@ onMounted(cargarProductos);
   flex-direction: column;
 }
 
-/* 📦 Sección central */
 .content {
   flex: 1;
   max-width: 1200px;
@@ -56,7 +49,6 @@ onMounted(cargarProductos);
   box-sizing: border-box;
 }
 
-/* 🧱 Título principal */
 .title {
   text-align: center;
   color: #2c3e50;
@@ -66,7 +58,6 @@ onMounted(cargarProductos);
   letter-spacing: 0.5px;
 }
 
-/* 📱 Responsive */
 @media (max-width: 768px) {
   .content {
     padding: 1.5rem;

@@ -31,7 +31,6 @@
       </tbody>
     </table>
 
-    <!-- Modal de edición -->
     <div class="modal" v-if="mostrarModal" @click.self="cerrarModal">
       <div class="modal-content">
         <h3>Editar Producto</h3>
@@ -148,7 +147,6 @@ const guardarCambios = async () => {
 
 
 
-// ✅ DESACTIVAR PRODUCTO
 const eliminar = async (id: number) => {
   const result = await Swal.fire({
     title: '¿Eliminar producto?',
@@ -260,7 +258,6 @@ h2 {
   }
 }
 
-/* Estilos del modal */
 .modal {
   position: fixed;
   top: 0;

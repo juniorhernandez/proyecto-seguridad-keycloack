@@ -43,4 +43,50 @@ export class InventoryService {
     producto.estado = 0;
     return this.repo.update(producto.id, producto);
   }
+
+  async getDashboard() {
+    const productos = await this.repo.findAll();
+    const activos = productos.filter((p) => p.estado === 1);
+
+    if (activos.length === 0) {
+      return {
+        totalProductos: 0,
+        productoMayorStock: null,
+        productoMenorStock: null,
+        totalValorInventario: 0,
+        promedioPrecio: 0,
+      };
+    }
+
+    const productoMayorStock = activos.reduce((a, b) =>
+      a.stock > b.stock ? a : b,
+    );
+    const productoMenorStock = activos.reduce((a, b) =>
+      a.stock < b.stock ? a : b,
+    );
+
+    const totalValorInventario = activos.reduce(
+      (sum, p) => sum + Number(p.precio) * p.stock,
+      0,
+    );
+
+    const promedioPrecio =
+      activos.reduce((sum, p) => sum + Number(p.precio), 0) / activos.length;
+
+    return {
+      totalProductos: activos.length,
+      productoMayorStock: {
+        id: productoMayorStock.id,
+        nombre: productoMayorStock.nombre,
+        stock: productoMayorStock.stock,
+      },
+      productoMenorStock: {
+        id: productoMenorStock.id,
+        nombre: productoMenorStock.nombre,
+        stock: productoMenorStock.stock,
+      },
+      totalValorInventario: Number(totalValorInventario.toFixed(2)),
+      promedioPrecio: Number(promedioPrecio.toFixed(2)),
+    };
+  }
 }
