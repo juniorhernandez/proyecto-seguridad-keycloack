@@ -1,14 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('Inventory')
+@Entity('inventory')
 export class Inventory {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 100 })
   nombre: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   descripcion: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
@@ -17,9 +17,12 @@ export class Inventory {
   @Column('int')
   stock: number;
 
-  @Column()
+  @Column({ length: 50 })
   usuario: string;
 
-  @Column({ type: 'datetime', default: () => 'GETDATE()' })
+  @Column({
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   fecha: Date;
 }
