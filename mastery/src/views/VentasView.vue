@@ -3,7 +3,7 @@
     <Navbar />
 
     <section class="dashboard-content">
-      <h1>Dashboard de Inventario</h1>
+      <h1>Dashboard</h1>
 
       <div v-if="!dataLoaded" class="loading">
         <p>Cargando estadísticas...</p>
