@@ -10,5 +10,6 @@ import { InventoryRepository } from '../inventory/inventory.repository';
   imports: [TypeOrmModule.forFeature([Sale])],
   controllers: [SaleController],
   providers: [SaleService, SaleRepository, InventoryRepository],
+  exports: [SaleRepository],
 })
 export class SaleModule {}

@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InventoryRepository } from './inventory.repository';
 import { Inventory } from './inventory.entity';
+import { SaleRepository } from '../sales/sale.repository';
 
 @Injectable()
 export class InventoryService {
-  constructor(private readonly repo: InventoryRepository) {}
+  constructor(
+    private readonly repo: InventoryRepository,
+    private readonly saleRepo: SaleRepository,
+  ) {}
 
   async getAll(): Promise<Inventory[]> {
     const inventarios = await this.repo.findAll();
@@ -47,6 +51,7 @@ export class InventoryService {
   async getDashboard() {
     const productos = await this.repo.findAll();
     const activos = productos.filter((p) => p.estado === 1);
+    const ventas = await this.saleRepo.findAll();
 
     if (activos.length === 0) {
       return {
@@ -55,6 +60,8 @@ export class InventoryService {
         productoMenorStock: null,
         totalValorInventario: 0,
         promedioPrecio: 0,
+        totalVentas: ventas.length,
+        totalDineroVendido: ventas.reduce((sum, v) => sum + Number(v.total), 0),
       };
     }
 
@@ -69,9 +76,13 @@ export class InventoryService {
       (sum, p) => sum + Number(p.precio) * p.stock,
       0,
     );
-
     const promedioPrecio =
       activos.reduce((sum, p) => sum + Number(p.precio), 0) / activos.length;
+    const totalVentas = ventas.length;
+    const totalDineroVendido = ventas.reduce(
+      (sum, v) => sum + Number(v.total),
+      0,
+    );
 
     return {
       totalProductos: activos.length,
@@ -87,6 +98,8 @@ export class InventoryService {
       },
       totalValorInventario: Number(totalValorInventario.toFixed(2)),
       promedioPrecio: Number(promedioPrecio.toFixed(2)),
+      totalVentas,
+      totalDineroVendido: Number(totalDineroVendido.toFixed(2)),
     };
   }
 }

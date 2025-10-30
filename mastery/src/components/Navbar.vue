@@ -8,6 +8,7 @@
       <div class="nav-links" :class="{ open: isOpen }">
         <router-link to="/" class="nav-item" @click="closeMenu">Home</router-link>
         <router-link to="/productos" class="nav-item" @click="closeMenu">Productos</router-link>
+        <router-link to="/ventas" class="nav-item"> Ventas</router-link>
       </div>
 
       <div class="menu-toggle" @click="toggleMenu">
