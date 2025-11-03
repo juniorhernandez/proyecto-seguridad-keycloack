@@ -1,5 +1,6 @@
 <template>
   <div class="ventas-container">
+    <Navbar />
     <section class="ventas-content">
       <h1>Registrar Venta</h1>
 
@@ -42,6 +43,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
+import Navbar from '@/components/Navbar.vue';
 import Swal from "sweetalert2";
 import api from "@/services/api";
 
