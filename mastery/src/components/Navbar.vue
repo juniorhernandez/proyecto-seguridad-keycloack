@@ -1,20 +1,29 @@
 <template>
   <nav class="navbar">
     <div class="nav-container">
-      <div class="logo">
+      <!-- LOGO -->
+      <router-link to="/" class="logo">
         Mastery
-      </div>
+      </router-link>
 
-      <div class="nav-links" :class="{ open: isOpen }">
-        <router-link to="/" class="nav-item" @click="closeMenu">Home</router-link>
-        <router-link to="/productos" class="nav-item" @click="closeMenu">Productos</router-link>
-        <router-link to="/ventas" class="nav-item"> Ventas</router-link>
-      </div>
-
+      <!-- MENU RESPONSIVE -->
       <div class="menu-toggle" @click="toggleMenu">
         <span :class="{ active: isOpen }"></span>
         <span :class="{ active: isOpen }"></span>
         <span :class="{ active: isOpen }"></span>
+      </div>
+
+      <!-- LINKS -->
+      <div class="nav-links" :class="{ 'nav-active': isOpen }">
+        <router-link to="/" class="nav-item" @click="closeMenu">Home</router-link>
+        <router-link to="/productos" class="nav-item" @click="closeMenu">Productos</router-link>
+        <router-link to="/ventas" class="nav-item" @click="closeMenu">Ventas</router-link>
+
+        <!-- USUARIO AUTENTICADO -->
+        <div v-if="authStore.authenticated" class="user-section">
+          <span class="user-name">{{ authStore.username }}</span>
+          <button class="logout-btn" @click="handleLogout">Cerrar sesión</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -22,10 +31,56 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
+import Swal from 'sweetalert2';
 
+const authStore = useAuthStore();
 const isOpen = ref(false);
+
 const toggleMenu = () => (isOpen.value = !isOpen.value);
 const closeMenu = () => (isOpen.value = false);
+
+// ✅ Cierra sesión correctamente y espera el proceso
+const handleLogout = async () => {
+  try {
+    // Primero mostrar confirmación
+    const confirm = await Swal.fire({
+      title: '¿Cerrar sesión?',
+      text: '¿Estás seguro que deseas cerrar la sesión?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (confirm.isConfirmed) {
+      // Mostrar loading mientras se procesa
+      Swal.fire({
+        title: 'Cerrando sesión...',
+        text: 'Por favor espera...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      await authStore.logout(); // Espera a que Keycloak redirija
+    }
+  } catch (err) {
+    console.error("❌ Error al cerrar sesión:", err);
+    // Mostrar error si falla
+    await Swal.fire({
+      title: 'Error',
+      text: 'No se pudo cerrar la sesión. Por favor intenta de nuevo.',
+      icon: 'error'
+    });
+  }
+};
 </script>
 
 <style scoped>
@@ -55,6 +110,7 @@ const closeMenu = () => (isOpen.value = false);
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
@@ -73,6 +129,34 @@ const closeMenu = () => (isOpen.value = false);
 .router-link-active {
   color: #1abc9c;
   font-weight: bold;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-left: 1px solid #34495e;
+  padding-left: 1rem;
+}
+
+.user-name {
+  font-size: 0.95rem;
+  color: #ecf0f1;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
 }
 
 .menu-toggle {
@@ -101,7 +185,6 @@ const closeMenu = () => (isOpen.value = false);
   transform: rotate(-45deg) translateY(-8px);
 }
 
-
 @media (max-width: 768px) {
   .nav-links {
     position: absolute;
@@ -119,6 +202,17 @@ const closeMenu = () => (isOpen.value = false);
 
   .nav-links.open {
     transform: translateY(0);
+  }
+
+  .user-section {
+    flex-direction: column;
+    border-left: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+
+  .logout-btn {
+    width: 60%;
   }
 
   .menu-toggle {

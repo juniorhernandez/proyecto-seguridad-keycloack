@@ -1,7 +1,5 @@
 <template>
   <div class="dashboard-container">
-    <Navbar />
-
     <section class="dashboard-content">
       <h1>Dashboard</h1>
 
@@ -53,7 +51,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import Navbar from '@/components/Navbar.vue';
 import api from '@/services/api';
 
 interface Dashboard {

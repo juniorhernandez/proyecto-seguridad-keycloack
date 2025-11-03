@@ -118,16 +118,20 @@ const cerrarModal = () => {
 const guardarCambios = async () => {
   try {
     const datosActualizados: Partial<Producto> = {};
-    const camposAComparar = ['nombre', 'descripcion', 'precio', 'stock'];
+    const camposAComparar: (keyof Producto)[] = ['nombre', 'descripcion', 'precio', 'stock'];
 
     for (const campo of camposAComparar) {
-      const nuevoValor = (productoEditando.value as any)[campo];
-      const valorOriginal = props.productos.find(p => p.id === productoEditando.value.id)?.[campo];
+      const productoOriginal = props.productos.find(p => p.id === productoEditando.value.id);
+      if (!productoOriginal) continue;
 
-      if (nuevoValor !== valorOriginal) {
-        (datosActualizados as any)[campo] = nuevoValor;
+      const nuevoValor = productoEditando.value[campo];
+      const valorOriginal = productoOriginal[campo];
+
+      if (nuevoValor !== undefined && nuevoValor !== valorOriginal) {
+        (datosActualizados as Record<string, unknown>)[campo] = nuevoValor;
       }
     }
+
 
     if (Object.keys(datosActualizados).length === 0) {
       await Swal.fire('ℹ️ Sin cambios', 'No se detectaron modificaciones.', 'info');

@@ -1,12 +1,26 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import App from "./App.vue";
+import router from "./router";
+import { useAuthStore } from "@/stores/authStore";
 
-import App from './App.vue'
-import router from './router'
+const app = createApp(App);
+app.use(createPinia());
+app.use(router);
 
-const app = createApp(App)
+(async () => {
+  const authStore = useAuthStore();
 
-app.use(createPinia())
-app.use(router)
+  try {
+    // 🧠 Inicializa Keycloak antes de montar la app
+    await authStore.initKeycloak();
 
-app.mount('#app')
+    console.log("✅ Keycloak inicializado correctamente");
+    app.mount("#app");
+  } catch (err) {
+    console.error("❌ Error al inicializar Keycloak:", err);
+    // Puedes montar la app igual para mostrar un mensaje de error o vista limitada
+    app.mount("#app");
+  }
+})();
+

@@ -1,5 +1,30 @@
-import axios from 'axios';
+import axios from "axios";
+import { useAuthStore } from "@/stores/authStore";
 
-export default axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL, 
 });
+
+
+api.interceptors.request.use((config) => {
+  const authStore = useAuthStore();
+  if (authStore.token) {
+    config.headers.Authorization = `Bearer ${authStore.token}`;
+  }
+  return config;
+});
+
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      const authStore = useAuthStore();
+      console.warn("Sesión expirada, cerrando sesión...");
+      authStore.logout();
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;

@@ -1,6 +1,5 @@
 <template>
   <div class="productos-container">
-    <Navbar />
     <section class="content">   
       <ProductForm @refresh="cargarProductos" />
       <ProductTable :productos="productos" @refresh="cargarProductos" />
@@ -10,7 +9,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import Navbar from '@/components/Navbar.vue';
 import ProductForm from '@/components/ProductForm.vue';
 import ProductTable from '@/components/ProductTable.vue';
 import api from '@/services/api';
