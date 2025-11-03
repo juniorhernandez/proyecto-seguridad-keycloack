@@ -117,15 +117,21 @@ const cerrarModal = () => {
 
 const guardarCambios = async () => {
   try {
-    const datosActualizados: Partial<Producto> = {};
-    const camposAComparar = ['nombre', 'descripcion', 'precio', 'stock'];
+    // Usamos claves tipadas para evitar errores de indexado dinámico
+    const datosActualizados = {} as Partial<Producto>;
+    const camposAComparar: (keyof Producto)[] = [
+      'nombre',
+      'descripcion',
+      'precio',
+      'stock',
+    ];
 
     for (const campo of camposAComparar) {
-      const nuevoValor = (productoEditando.value as any)[campo];
+      const nuevoValor = productoEditando.value[campo];
       const valorOriginal = props.productos.find(p => p.id === productoEditando.value.id)?.[campo];
 
       if (nuevoValor !== valorOriginal) {
-        (datosActualizados as any)[campo] = nuevoValor;
+        datosActualizados[campo] = nuevoValor as any;
       }
     }
 
